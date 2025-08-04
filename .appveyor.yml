@@ -1,0 +1,17 @@
+image: Ubuntu2004  # Используем образ Ubuntu
+stack: jdk 11      # Указываем версию JDK
+
+branches:
+  only:
+    - main       # Следим только за веткой master
+
+build: off         # Отключаем стандартную сборку
+
+install:
+  # Запускаем SUT в фоне (&)
+  - java -jar ./artifacts/app-mbank.jar &
+  - chmod +x gradlew  # Даем права на запуск Gradle Wrapper
+
+build_script:
+  # Запускаем тесты с подробным выводом (--info)
+  - ./gradlew test --info
